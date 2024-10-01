@@ -60,14 +60,48 @@ public class MagicArray2 {
         return Integer.MIN_VALUE; // no good solution
     }
 
-    int remove(int index) {
+    int removeByIndex(int index) {
         int deleted = array[index];
         if (index >= 0) {
             for (int i = index; i < array.length; i++) {
                 array[i - 1] = array[i];
             }
-            cursor--;
         }
+        cursor--;
         return deleted;
     }
+
+    int searchByIndex(int index) {
+        int result = 0;
+        if (index >= 0) {
+            for (int i = 0; i < array.length; i++) {
+                result = array[index];
+            }
+        }
+        return index;
+    }
+
+    int returnByIndex(int index) {
+        return array[index];
+    }
+
+    int removeByValue(int value) {
+        int result = 0;
+        int index = 0;
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] == value) {
+                index = i;
+            }
+        }
+        for (int i = index; i < array.length; i++) {
+            if ((array[i] == value) && (i != array.length)) {
+                result = array[i];
+                array[i] = array[i + 1];
+            }
+        }
+        cursor--;
+        return result;
+        //работает неправильно
+    }
+
 }
