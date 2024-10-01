@@ -2,13 +2,14 @@ package lesson15;
 
 public class Cat {
 
-    String name;
-    String color;
-    int age;
+    public String name;
+    public String color;
+    public int age;
 
-    public Cat(String catName, String color){
+    public Cat(String catName, String color, int age){
         name=catName;
         this.color=color;
+        this.age=age;
     }
 
     public void sleep(){
