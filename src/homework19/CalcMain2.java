@@ -1,8 +1,8 @@
-package homework18;
+package homework19;
 
-import java.util.Scanner;
+import homework18.Calculator;
 
-public class CalcMain {
+public class CalcMain2 {
 
     public static void main(String[] args) {
 
@@ -14,6 +14,12 @@ public class CalcMain {
 
         int sum = Calculator.add(1, 4, 5, 6, 8, 10);
         System.out.println("sum: " + sum);
+
+        double circleLength=Calculator2.circlePerimeter(2);
+        System.out.println("Circle length:" + circleLength);
+
+        double circleArea=Calculator2.circleArea(4);
+        System.out.println("Circle area: " + circleArea);
 
     }
 }

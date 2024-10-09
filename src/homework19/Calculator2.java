@@ -1,8 +1,8 @@
-package homework18;
+package homework19;
 
-public class Calculator {
+public class Calculator2 {
 
-
+    public static final double PI = 3.141519;
     public static int add(int a, int b) {
         return a + b;
     }
@@ -44,6 +44,14 @@ public class Calculator {
 
     public static double divide(double a, double b) {
         return a / b;
+    }
+
+    public static double circlePerimeter(double radius){
+        return 2*PI*radius;
+    }
+
+    public static double circleArea(double radius){
+        return PI*radius*radius;
     }
 
 }
