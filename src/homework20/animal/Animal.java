@@ -11,7 +11,7 @@ public class Animal {
     }
 
     public String toString(){
-        return "Animal " + name + " age " + age;
+        return "lesson22.Animal " + name + " age " + age;
     }
 
     public void eat(){
