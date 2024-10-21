@@ -6,7 +6,7 @@ public class ArrayTest {
 
         MagicArrayGen<Integer> numbers = new MagicArrayGen<>();
 
-        numbers.add(1, 2, 3, 4, 5, 6);
+        numbers.addAll(1, 2, 3, 4, 5, 6);
 
         System.out.println(numbers);
 

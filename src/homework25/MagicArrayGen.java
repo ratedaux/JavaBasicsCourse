@@ -1,151 +1,276 @@
 package homework25;
 
-public class MagicArrayGen<T> implements MyList {
+import java.lang.reflect.Array;
+
+public class MagicArrayGen<T> implements MyList <T>{
 
     private T[] array;
     private int cursor;
-
+    @SuppressWarnings("unchecked")
     public MagicArrayGen() {
         array = (T[]) new Object[10];
     }
-
+    @SuppressWarnings("unchecked")
     public MagicArrayGen(T[] array) {
         if (array == null || array.length == 0) {
             this.array = (T[]) new Object[10];
         } else {
             this.array = (T[]) new Object[array.length * 2];
-            add(array);
+            addAll(array);
         }
     }
+
+        // Добавление в массив одного элемента
+        public void add(T value) {
+
+
+            // Проверка. Есть ли вообще свободное место во внутреннем массиве
+            // Если места нет - нужно добавить место
+            if (cursor == array.length - 1) {
+                // Расширить массив перед добавлением нового элемента
+                expandArray();
+            }
+
+            array[cursor] = value;
+            cursor++;
+        }
+
+        @Override
+        @SuppressWarnings("unchecked")
+        public void addAll(T... numbers) {
+            // с numbers я могу обращаться точно также, как со ссылкой на массив int
+            // System.out.println("Приняли несколько интов. А именно: " + numbers.length);
+            // System.out.println("Есть индекс у каждого инта, как в массиве. По индексом 0: " + numbers[0]);
+            for (int i = 0; i < numbers.length; i++) {
+                add(numbers[i]);
+            }
+        }
+
+
+        // Динамическое расширение массива
+        @SuppressWarnings("unchecked")
+        private void expandArray() {
+            System.out.println("Расширяем массив! Курсор = " + cursor);
+        /*
+        1. создать новый массив бОльшего размера (в 2 раза больше)
+        2. Переписать в новый массив все значения из старого (до курсора)
+        3. Перебросить ссылку
+         */
+
+            // 1
+            T[] newArray = (T[]) new Object[array.length * 2];
+
+            // 2
+            for (int i = 0; i < cursor; i++) {
+                newArray[i] = array[i]; // Переписываю все значения из старого массива в новый
+            }
+
+            // Перебрасываем ссылку. Переменная array хранит ссылку на "новый" массив
+            array = newArray;
+            System.out.println("Расширение массива завершено");
+        }
+
+        // Возвращает строковое представление массива
+        // [1, 14, 16]
+        public String toString() {
+
+            if (cursor == 0) return "[]";
+
+            String result = "[";
+            for (int i = 0; i < cursor; i++) {
+                result = result + array[i] + (i < cursor - 1 ? ", " : "]"); //", " / "]"
+            }
+
+            return result;
+        }
+
+
+        // Текущее количество элементов в массиве
+        public int size() {
+            return cursor;
+        }
+
+        // Возвращает значение по индексу
+        public T get(int index) {
+            if (index >= 0 && index < cursor) {
+                return array[index];
+            }
+            // Написать код, если индекс "не корректный"
+            return null; //
+
+        }
 
     @Override
-    public void add(Object value) {
-        if (cursor == array.length - 1) {
-            expandArray();
+    public void set(int index, T value) {
+        if (index >= 0 && index < cursor) {
+            // Если индекс "правильный" присваиваем новое значение
+            array[index] = value;
         }
-        array[cursor] = (T) value;
-        cursor++;
+        // Если нет, ничего не делаем
     }
 
-    public void add(T... numbers) {
-        //System.out.println("Accepted a few ints. To be precise " + numbers.length);
-        //System.out.println("Under index 0 is " + numbers[0]);
-        for (int i = 0; i < numbers.length; i++) {
-            add(numbers[i]);
+    // Удаление элемента по индексу
+        public T remove(int index) {
+        /*
+        1. Проверка индекса на валидность
+        2. Удалить значение по индексу
+        3. Передвинуть курсор (т.к. кол-во элементов уменьшилось)
+        4. Вернуть старое значение
+        */
+
+            if (index >= 0 && index < cursor) {
+                // Логика удаления
+                T value = array[index]; // значение, которое я должен вернуть
+
+                // Перебираем элементы начиная с индекса и перезаписываем значениями из соседней правой ячейки
+                for (int i = index; i < cursor - 1; i++) { // граница перебора индексов?
+                    array[i] = array[i + 1];
+                }
+                cursor--;
+
+                return value; // возвращаем старое значение
+
+            } else {
+//           Индекс не валидный
+                return null;
+            }
         }
-    }
-
-    public void expandArray() {
-        System.out.println("Expanding array... Cursor = " + cursor);
-
-        T[] newArray = (T[]) new Object[array.length * 2];
-        for (int i = 0; i < cursor; i++) {
-            newArray[i] = array[i];
-        }
-
-        array = newArray;
-        System.out.println("Array expanded.");
-    }
-
-    public String toString() {
-        if (cursor == 0) {
-            return "[]";
-        }
-        String result = "[";
-        for (int i = 0; i < cursor; i++) {
-            result = result + array[i] + (i < cursor - 1 ? ", " : "]");
-        }
-        return result;
-    }
-
-    @Override
-    public void addAll(Object[] values) {
-
-    }
-
-    public int size() {
-        return cursor;
-    }
-
-    @Override
-    public boolean contains(Object value) {
-        return false;
-    }
-
-    @Override
-    public Object[] toArray() {
-        return new Object[0];
-    }
 
     @Override
     public boolean isEmpty() {
-        return false;
-    }
-
-    //возвращает значение по индексу
-    public T get(int index) {
-        if (index >= 0 && index < cursor) {
-            return array[index];
-        }
-        return null; // no good solution
+        // Если курсор равен 0 - значит у нас нет элементов во внутреннем массиве
+        return cursor == 0;
     }
 
     @Override
-    public void set(int index, Object value) {
+        public boolean contains(T value) {
+            // 3 >= 0 -> true (элемент найден) | -1 >= 0 -> false (не содержится)
+            return indexOf(value) >= 0;
 
-    }
-
-    public T remove(int index) {
-        if (index >= 0 && index < cursor) {
-            T deleted = array[index];
-
-            if (index >= 0) {
-                for (int i = index; i < cursor - 1; i++) {
-                    array[i] = array[i + 1];
-                }
-            }
-            cursor--;
-            return deleted;
+//        int index = indexOf(value);
+//        if (index >= 0) {
+//            // Индекс, который вернулся больше нуля - элемент найден
+//            return true;
+//        }
+//        else {
+//            // index меньше нуля (минус 1), значит такое значение не найдено = не содержится в нашем массиве
+//            return false;
+//        }
         }
-        return null;
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public T[] toArray() {
+        /*
+        1. Создать новый массив размерностью cursor
+        2. Пройтись по нашему Внутреннему массиву и скопировать все элементы в новый массив
+        3. Вернуть ссылку на новый массив
+         */
+
+
+        // Взять какой-то объект из моего массива и узнать на стадии выполнение программы тип этого объекта.
+        // И потом могу создать массив этого типа данных
+
+        if (cursor == 0) return null;
+        // if (cursor == 0) return (T[]) new Object[0]; // ошибка в RunTime
+
+        Class<T> clazz = (Class<T>) array[0].getClass();
+//        System.out.println("clazz = " + clazz);
+
+        // Создаю массив того же типа, как и 0-й элемент
+        T[] result = (T[]) Array.newInstance(clazz, cursor);
+
+        for (int i = 0; i < result.length; i++) {
+            result[i] = array[i];
+        }
+
+        return result;
+
+
+//          Этот код вызывает ошибку
+//        T[] result = (T[]) new Object[cursor];
+//        for (int i = 0; i < result.length; i++) {
+//            result[i] = array[i];
+//        }
+
+
     }
 
     @Override
-    public int indexOf(Object value) {
-        for (int i = 0; i < cursor; i++) {
-            if (array[i].equals(value)) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    @Override
-    public int IndexOf(Object value) {
-        return 0;
-    }
-
-    public T returnByIndex(int index) {
-        return array[index];
-    }
-
-    @Override
-    public int lastIndexOf(Object value) {
-        int index = 0;
-        for (int i = 0; i < cursor; i++) {
-            if (array[i].equals(value)) {
-                index = i;
-            }
-        }
-        return index;
-    }
-
-    public boolean remove(Object value) {
-        int index = IndexOf((T) value);
+    public boolean remove(T value) {
+                /*
+        1. Есть ли элемент с таким значение в массиве - indexOf
+        2. Если элемента нет - вернуть false
+        3. Если элемент есть - удалить и вернуть true - вызвать удаление по индексу
+         */
+        int index = indexOf(value);
         if (index == -1) return false;
 
         remove(index);
         return true;
     }
 
-}
+
+    // Поиск по значению. Первое вхождение
+        // {1, 100, 5, 5, 100} -> 100 метод вернет индекс первого найдено вхождения = 1
+        public int indexOf(T value) {
+            for (int i = 0; i < cursor; i++) {
+                if (array[i].equals(value)) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+    @Override
+    public int IndexOf(Object value) {
+        return 0;
+    }
+
+    // Метод поиска по значению. Поиск последнего вхождения
+        // Возвращает индекс последнего вхождения значения в массиве
+        // {1, 100, 5, 5, 100} -> 100 метод вернет индекс последнего найдено вхождения = 4
+        public int lastIndexOf(T value) {
+
+            for (int i = cursor - 1; i >= 0; i--) {
+                if (array[i].equals(value)) {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        // Удаление элемента по значению
+        public boolean removeByValue(T value) {
+        /*
+        1. Есть ли элемент с таким значение в массиве - indexOf
+        2. Если элемента нет - вернуть false
+        3. Если элемент есть - удалить и вернуть true - вызвать удаление по индексу
+         */
+            int index = indexOf(value);
+            if (index == -1) return false;
+
+            remove(index);
+            return true;
+        }
+
+
+    }
+
+/*
+1. Добавлять в массив элемент (не думая об индексах, размере массива) ++
+2. Динамическое изменение размера массива ++
+3. Возвращать строковое представление массива (какие элементы тым есть) ++
+4. Добавляем в массив сразу несколько значений. ++
+5. Текущее количество элементов в массиве ++
+6. Возвращает значение по индексу ++
+7. Удаляет элемент по индексу ++ (Есть индекс - удалить этот элемент из массива). Вернуть старое значение (удаленное)
+8. Конструктор, принимающий массив ++
+9. Удаление по значению
+10. Поиск по значению. Возвращает индекс ++
+11. Написать метод lastIndexOf(int value) возвращающий индекс последнего вхождения значения в массиве.
+
+ */
+
+
