@@ -25,6 +25,8 @@ public class RectangleMain {
         rectangles.add(rectangle2);
         rectangles.add(rectangle1);
 
+        System.out.println();
+
 
     }
 }

@@ -5,12 +5,11 @@ import homework25.MyList;
 
 import java.util.Objects;
 
-public class Rectangle extends MagicArrayGen {
+public class Rectangle {
 
     private double length;
     private double width;
 
-    private MyList<Rectangle> rectangles;
 
     public Rectangle() {
         this.length = 1.0;
@@ -38,10 +37,6 @@ public class Rectangle extends MagicArrayGen {
         this.width = width;
     }
 
-    public MyList<Rectangle> getRectangles() {
-        return rectangles;
-    }
-
     @Override
     public String toString() {
         return "Rectangle{" +
@@ -63,8 +58,22 @@ public class Rectangle extends MagicArrayGen {
         return Objects.hash(length, width);
     }
 
-    void removeDuplicates(MyList<Rectangle> rectangles, Rectangle rectangle) {
+    public static void removeDuplicates(MyList<Rectangle> rectangles, Rectangle rectangle) {
+        while (rectangles.contains(rectangle)) {
+            rectangles.remove(rectangle);
+        }
+    }
 
+    public static MyList<Rectangle> removeOnlyDuplicates(MyList<Rectangle> rectangles, Rectangle rectangle) {
+        MyList<Rectangle> result=new MagicArrayGen<>();
+
+        for(int i=0; i< rectangles.size(); i++) {
+            if (!result.contains(rectangles.get(i))) {
+                result.add(rectangles.get(i));
+
+            }
+        }
+        return result;
     }
 
 }

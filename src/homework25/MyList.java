@@ -1,6 +1,6 @@
 package homework25;
 
-public interface MyList <T>{
+public interface MyList <T> extends Iterable <T>{
         /**
          * Добавить элемент
          * @param value

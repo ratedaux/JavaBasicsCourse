@@ -33,7 +33,7 @@ public class Person {
      */
 
 
-        private boolean isEmailValid(String email) {
+        public boolean isEmailValid(String email) {
 
             // 1. Должна присутствовать @
             int indexAt = email.indexOf('@');
@@ -54,6 +54,38 @@ public class Person {
 
             return true;
         }
+
+    public boolean isPasswordValid(String password) {
+        if (password == null || password.length() < 8) return false;
+
+        boolean isDigit = false;
+        boolean isUpperCase = false;
+        boolean isLowerCase = false;
+        boolean isSpecialSymbol = false;
+
+        // альтернативный способ объявление переменных
+        boolean[] result = new boolean[4]; // false, false, false, false
+
+        String symbols = "!%$@&*()[].,-";
+
+        // Перебираю символы
+        for (int i = 0; i < password.length(); i++) {
+            char ch = password.charAt(i);
+
+            if (Character.isDigit(ch)) isDigit = true; // res[0] = true
+            if (Character.isUpperCase(ch)) isUpperCase = true; // res[1] = true
+            if (Character.isLowerCase(ch)) isLowerCase = true; //  res[2] = true
+            if (symbols.indexOf(ch) >= 0) isSpecialSymbol = true;
+            // if (symbols.contains(String.valueOf(ch))) isSpecialSymbol = true;
+
+            // Если хотя бы в одной переменной останется значение false, то весь пароль НЕ будет признан валидным = (признан не валидным)
+            return isDigit && isUpperCase && isLowerCase && isSpecialSymbol;
+        }
+
+
+        return false;
+
+    }
 
         public String getPassword() {
             return password;

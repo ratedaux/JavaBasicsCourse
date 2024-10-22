@@ -1,8 +1,9 @@
 package homework25;
 
 import java.lang.reflect.Array;
+import java.util.Iterator;
 
-public class MagicArrayGen<T> implements MyList <T>{
+public class MagicArrayGen<T> implements MyList <T>, Iterable <T>{
 
     private T[] array;
     private int cursor;
@@ -256,7 +257,25 @@ public class MagicArrayGen<T> implements MyList <T>{
         }
 
 
+    @Override
+    public Iterator<T> iterator() {
+        return new MyIterator();
     }
+
+    private class MyIterator implements Iterator<T> {
+
+        int currentIndex;
+        @Override
+        public boolean hasNext() {
+            return currentIndex<cursor;
+        }
+
+        @Override
+        public T next() {
+            return array[currentIndex++];
+        }
+    }
+}
 
 /*
 1. Добавлять в массив элемент (не думая об индексах, размере массива) ++
