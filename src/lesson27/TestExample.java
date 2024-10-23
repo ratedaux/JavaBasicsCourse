@@ -2,6 +2,8 @@ package lesson27;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.provider.CsvFileSource;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,5 +26,10 @@ class TestExample {
 
     public void emptyTest(){
         System.out.println("Test empty");
+    }
+
+    @CsvFileSource(resources = "data.csv")
+    void testCSVFileSource(String fruit, int rank, boolean flag){
+        System.out.println(fruit + " | " + rank + " | " + !flag);
     }
 }
