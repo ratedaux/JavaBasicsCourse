@@ -9,7 +9,7 @@ public class Task1 {
     Если строки имеют одинаковую длину - сортировать в естественном порядке
     */
 
-    public static LinkedHashSet<String> getUniqueSortedWords(String str) {
+    public static List<String> getUniqueSortedWords(String str) {
         String newString = str.replaceAll("[^a-zA-Z0-9а-яА-Я ]", "");
         System.out.println(newString);
 
@@ -17,11 +17,11 @@ public class Task1 {
         String[] words = newString.split(" ");
         System.out.println(Arrays.toString(words));
 
-        for(int i = words.length-1 ; i > 0 ; i--){
+        /*for(int i = words.length-1 ; i > 0 ; i--){
             for(int j = 0 ; j < i ; j++){
-            /*Сравниваем элементы попарно,
+            Сравниваем элементы попарно,
              если они имеют неправильный порядок,
-             то меняем местами */
+             то меняем местами
                 if( words[j].length() > words[j+1].length() ){
                     String tmp = words[j];
                     words[j] = words[j+1];
@@ -35,7 +35,21 @@ public class Task1 {
         System.out.println(list);
         LinkedHashSet<String> linkedHashSet
                 = new LinkedHashSet<String>(list);
-        return linkedHashSet;
+        return linkedHashSet; */
+
+        // Конструктор может быть пустым, может принимать коллекцию или компаратор. Но не может одновременно принимать коллекцию+компаратор
+//        Set<String> test = new TreeSet<>(Arrays.asList(words));
+
+        Set<String> uniqueWords = new TreeSet<>(Comparator.comparing(String::length).thenComparing(Comparator.naturalOrder()));
+
+        // Преобразую массив в список и передаю в метод addAll (в set будут добавлены все элементы из списка слов)
+        // Сет обеспечит сортировку + удалит дубликаты
+//        List<String> wordList = Arrays.asList(words);
+        uniqueWords.addAll(Arrays.asList(words));
+        System.out.println("set: " + uniqueWords);
+
+        return new ArrayList<>(uniqueWords);
+
     }
 
 }
