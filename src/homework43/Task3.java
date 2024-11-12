@@ -21,17 +21,17 @@ public class Task3 {
         System.out.println(filteredByCity(people).toString());
     }
 
-    private static List<Object> filteredByAge(List<Person> people) {
+    private static List<Person> filteredByAge(List<Person> people) {
         Stream<Person> personStream = people.stream()
                 .filter(person -> person.getAge() >25);
-        List<Object> result=personStream.collect(Collectors.toList());
+        List<Person> result=personStream.collect(Collectors.toList());
         return result;
     }
 
-    private static List<Object> filteredByCity(List<Person> people) {
+    private static List<Person> filteredByCity(List<Person> people) {
         Stream<Person> personStream = people.stream()
                 .filter(person -> person.getCity() == "Berlin");
-        List<Object> result=personStream.collect(Collectors.toList());
+        List<Person> result=personStream.collect(Collectors.toList());
         return result;
     }
 
